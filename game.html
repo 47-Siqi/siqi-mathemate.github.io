@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">      
+    <style>
+        h1 {
+        position: absolute;
+        top: -1%;
+        left: 50%;
+        color: white;
+        transform: translateX(-50%); 
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        text-align: center;
+        z-index: 2
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .header {
+        width: 100%;
+        height: 80px;
+        background-color: #87CEEB;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFFFFF;
+        font-size: 20px;
+        z-index: 2;
+    }
+    p {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 30px;
+        margin: 60px auto 200px;
+        margin-left: 18%;
+        color: #727171;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+    .bottom-image {
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+    }
+    .large-button.easy {
+        width: 300px;
+        height: 200px;
+        background-image: url('easy.jpg');
+        background-size: contain;
+        background-position: center;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        font-size: 25px;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: rgb(110, 110, 114);
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border: none;
+    }
+
+    .large-button.medium {
+        width: 300px;
+        height: 200px;
+        background-image: url('medium.jpg');
+        background-size: contain;
+        background-position: center;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        font-size: 25px;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: rgb(110, 110, 114);
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border: none;
+    }
+
+    .large-button.hard {
+        width: 300px;
+        height: 200px;
+        background-image: url('hard.jpg');
+        background-size: contain;
+        background-position: center;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        font-size: 25px;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: rgb(110, 110, 114);
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border: none;
+    }
+
+    .large-button:hover {
+        background-color: #b1e9ff;
+    }
+    .large-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 120px;
+        position: relative;
+        top: -40px;
+    }
+    .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #D3D3D3;
+            color: white;
+            padding: 15px 40px;
+            font-size: 26px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 5;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .button-container{
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 100px;
+        z-index: 2;
+    }
+        
+        .small-button1 {
+            border-radius: 12px;
+            background-color: #050872;
+            color: white;
+            border: none;
+            font-size: 23px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .small-button2 {
+            border-radius: 12px;
+            background-color: #1989f1;
+            color: white;
+            border: none;
+            font-size: 23px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .small-button.active {
+            background-color: #FF5733;
+        }
+
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">Back</button>
+    <div class="header"></div>
+    <i class="fas fa-cat" style="font-size: 60px; position: absolute; margin-top: 70px; left: 12%; color: rgb(61, 41, 41);"></i>
+    <h1 style="font-size: 39px;">Math Master</h1>
+    <p style="white-space: nowrap;">Here is the calculation test mini-game!<br>
+        Below are the three difficulty levels, choose the level button you want to try!</p>
+        <div class="button-container" style="display: flex; position: absolute; top: 140px; margin-left: 580px;">
+            <button class="small-button1">Age</button>
+            <button class="small-button2">5-7</button>
+            <button class="small-button2">8-11</button>
+            <!-- <button class="small-button">11-12</button> -->
+        </div>
+        <div id="suggestion-container" style="text-align: center; margin-top: 135px; font-size: 20px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #0662e2; position: absolute; top: 180px; width: 100%;"></div>
+
+        
+        <div class="large-button-container">
+            <a href="rule1.html">
+                <button class="large-button easy">Easy</button>
+            </a>
+            <a href="rule2.html">
+                <button class="large-button medium">Medium</button>
+            </a>
+            <a href="rule3.html">
+                <button class="large-button hard">Hard</button>
+            </a>
+        </div>
+        <script>
+            const buttons = document.querySelectorAll('.small-button2');
+            const suggestionContainer = document.getElementById('suggestion-container');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent === 'Age') {
+                        return;
+                    }
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    suggestionContainer.innerHTML = '';
+    
+                if (this.textContent === '5-7') {
+                    suggestionContainer.innerHTML = 'We suggest you play <span style="color: red;">easy</span> or <span style="color: red;">medium</span> level of Maths Master.';
+                }
+                if (this.textContent === '8-11') {
+                    suggestionContainer.innerHTML = 'We suggest you play <span style="color: red;">medium</span> or <span style="color: red;">hard</span> level of Maths Master.';
+                }
+                // if (this.textContent === '11-12') {
+                //     suggestionContainer.innerHTML = 'We suggest you play <span style="color: red;">hard</span> level of Maths Master.';
+                // }
+                    });
+                });
+        </script>
+    <img src="grass.jpg" alt="grass" class="bottom-image">
+    <script>
+        function goBack() {
+            window.location.href = 'gamelearn.html';
+        }
+    </script>
+</body>
+</html>

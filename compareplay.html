@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">      
+    <style>
+        h1 {
+            position: absolute;
+            top: -1%;
+            left: 50%;
+            color: white;
+            transform: translateX(-50%); 
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            z-index: 2
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            height: 80px;
+            background-color: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            font-size: 20px;
+            z-index: 2;
+        }
+        .timer {
+            position: absolute;
+            top: 90px;
+            right: 20px;
+            font-size: 24px;
+            color: rgb(0, 0, 0);
+            display: flex;
+            align-items: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .timer i {
+            margin-right: 10px;
+        }
+        p {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 36px;
+            margin: 60px auto 200px;
+            margin-left: 38%;
+            margin-top: 72px;
+            color: #727171;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        .bottom-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #D3D3D3;
+            color: white;
+            padding: 15px 40px;
+            font-size: 26px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 5;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            position: relative; 
+            left: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .equation {
+            font-size: 40px;
+            margin: 20px 0;
+            position: relative; 
+            top:-160px;
+            left: 680px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .input-container {
+            margin: 20px 0;
+            position: relative; 
+            border-radius: 25px;
+            top:-120px;
+            left: 560px;
+            text-align: center;
+            display: inline-block;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .answer-button {
+            padding: 15px 30px;
+            font-size: 30px;
+            background-color: #0662e2;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            cursor: pointer;
+            margin: 0 20px;
+        }
+        .answer-button:hover {
+            background-color: #0654b2;
+        }
+        .result-message {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #0662e2;
+        }
+        .score-section {
+            font-size: 36px;
+            color: #0662e2;
+            position: relative; 
+            top:-250px;
+            left: 830px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .feedback-icon {
+            display: inline-block;
+            margin-left: 10px;
+            animation: pop 0.4s ease;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">Back</button>
+    <div class="header"></div>
+    <i class="fas fa-gamepad" style="font-size: 60px; position: absolute; margin-top: 70px; left: 31%;"></i>
+    <h1 style="font-size: 39px;">Who is Bigger?</h1>
+    <p style="white-space: nowrap;">Your score:</p>
+    <div class="score-section">
+        <span id="score">0</span>
+        <span id="feedback"></span>
+        <span id="feedbackIcon"></span>
+    </div>
+    <img src="grass.jpg" alt="grass" class="bottom-image">
+
+    <div class="timer">
+        <i class="fas fa-clock"></i> 
+        <span id="timer">Time: 0s</span>
+    </div>
+
+    <div class="equation" id="equation"></div>
+    <div class="input-container">
+        <button class="answer-button" onclick="checkAnswer('>')">></button>
+        <button class="answer-button" onclick="checkAnswer('<')"><</button>
+        <button class="answer-button" onclick="checkAnswer('=')">=</button>
+    </div>
+    <div class="result-message" id="resultMessage"></div>
+
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        let timeElapsed = 0;
+        let timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                timeElapsed++;
+                document.getElementById('timer').textContent = `Time: ${timeElapsed}s`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+        function generateRandomComparison() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1; 
+
+            let operator;
+            if (num1 > num2) {
+                operator = '>';
+            } else if (num1 < num2) {
+                operator = '<';
+            } else {
+                operator = '=';
+            }
+            let equation = `${num1} <span style="color: red;">?</span> ${num2}`;
+            return { equation, correctAnswer: operator, num1, num2 };
+        }
+
+        function displayEquation() {
+            const { equation, correctAnswer } = generateRandomComparison();
+            document.getElementById('equation').innerHTML = equation;
+            return correctAnswer;
+        }
+
+
+        let correctAnswer = displayEquation();
+        let questions = JSON.parse(localStorage.getItem('questionsAndAnswers')) || [];
+
+        //check answer
+        function checkAnswer(userAnswer) {
+            let isCorrect = false;
+            let feedbackmessage = '';
+            let feedbackcolor = '';
+            if (userAnswer === correctAnswer) {
+                isCorrect = true;
+                feedbackmessage = 'Correct! Good job';
+                feedbackcolor = 'green';
+                feedbackIcon.innerHTML = '<i class="fas fa-smile feedback-icon" style="color: green;"></i>';
+            }else{
+                feedbackmessage = 'Oops! Wrong';
+                feedbackcolor = 'red';
+                feedbackIcon.innerHTML = '<i class="fas fa-sad-tear feedback-icon" style="color: red;"></i>';
+            }
+            questions.push({
+        equation: document.getElementById('equation').textContent,
+        userAnswer: userAnswer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect
+    });
+
+    localStorage.setItem('questionsAndAnswers', JSON.stringify(questions));
+                document.getElementById('score').textContent = score;
+            const feedback = document.getElementById('feedback');
+                feedback.textContent = feedbackmessage;
+                feedback.style.color = feedbackcolor;
+
+            if (isCorrect) {
+                score++;
+                document.getElementById('score').textContent = score;
+
+            }
+            
+            
+            currentQuestion++;
+            if (currentQuestion >= 10) {
+                window.location.href = `compareresult.html?score=${score}&time=${timeElapsed}`;
+            } else {
+                correctAnswer = displayEquation();
+            }
+        }
+        startTimer();  
+        //keyboard button
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'd') {
+                checkAnswer('<');
+            } else if (event.key === 'a') {
+                checkAnswer('>');
+            } else if (event.key === ' ') {
+                checkAnswer('=');
+            }
+        });
+
+    </script>
+    <script>
+        function goBack() {
+            window.location.href = 'compare-6.html';
+        }
+    </script>
+</body>
+</html>

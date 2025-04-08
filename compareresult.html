@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            color: white;
+            transform: translateX(-50%);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            z-index: 2;
+        }
+        h2 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 36px;
+        }
+        .header {
+            width: 100%;
+            height: 80px;
+            background-color: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            font-size: 20px;
+            z-index: 2;
+        }
+        p {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 30px;
+            margin: 40px;
+            margin-left: 5%;
+            color: #727171;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+        .bottom-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+        }
+        .content-box {
+            position: absolute;
+            top: 46%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 50%;
+            max-width: 700px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            text-align: center;
+        }
+        .result-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .result-buttons button {
+            padding: 10px 20px;
+            font-size: 30px;
+            top:20%;
+            background-color: #0662e2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .result-buttons button:hover {
+            background-color: #053a84;
+        }
+
+        .leaderboard-container {
+            position: absolute;
+            top: 17%;
+            right: 1%;
+            width: 300px;
+            height: 250px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .leaderboard-container h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-list {
+            list-style-type: none;
+            padding: 0;
+            font-size: 18px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .leaderboard-list li {
+            margin: 10px 0;
+        }
+        .answersContainer {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 15px;
+            border: 2px solid #0662e2;
+            border-radius: 10px;
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+    <h1 style="font-size: 36px;">Who is Bigger? -- Score</h1>
+
+    <div class="content-box">
+        <h2 >Welldone!</h2>
+        <p>Your score is: <span id="score">0</span></p>
+        <p>You took <span id="time">0</span> seconds</p>
+
+        <div class="result-buttons">
+            <button onclick="displayAnswers()"; style="font-family: 'Comic Sans MS', cursive, sans-serif;">Answers</button>
+        </div>
+    </div>
+
+    <div class="leaderboard-container">
+        <h3 style="font-family: 'Comic Sans MS', cursive, sans-serif;">History</h3>
+        <ul class="leaderboard-list" id="leaderboard" >
+        </ul>
+    </div>
+
+    <img src="grass.jpg" alt="grass" class="bottom-image">
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const score = urlParams.get('score') || 0;
+        const time = urlParams.get('time') || 0;
+
+        document.getElementById('score').textContent = `${score}/10`;
+        document.getElementById('time').textContent = time;
+
+        // let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+        const leaderboardKey = 'compareLeaderboard';
+        let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
+
+
+        leaderboard.push({ score: parseInt(score), time: parseInt(time) });
+        const leaderboardList = document.getElementById('leaderboard');
+        leaderboardList.innerHTML = '';
+        leaderboard.forEach((entry, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${index + 1}. Score: ${entry.score} - Time: ${entry.time}s`;
+            leaderboardList.appendChild(listItem);
+        });
+        localStorage.setItem('compareLeaderboard', JSON.stringify(leaderboard));
+
+        function displayAnswers() {
+            window.location.href = 'compareans.html';
+        }
+    </script>
+    
+</body>
+</html>

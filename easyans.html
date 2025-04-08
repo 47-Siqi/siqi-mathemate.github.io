@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">      
+    <style>
+        h1 {
+        position: absolute;
+        top: -1%;
+        left: 50%;
+        color: white;
+        transform: translateX(-50%); 
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        text-align: center;
+        z-index: 2
+
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .header {
+        width: 100%;
+        height: 80px;
+        background-color: #87CEEB;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFFFFF;
+        font-size: 20px;
+        z-index: 2;
+    }
+    p {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 45px;
+        margin: 60px auto 200px;
+        margin-top: 28px;
+        margin-left: 13%;
+        color: #e82727;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+    .bottom-image {
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
+    }
+    .back-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #D3D3D3;
+        color: white;
+        padding: 15px 40px;
+        font-size: 26px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 5;
+        text-align: center;
+        display: inline-block;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+    .answer-container {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 15px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background-color: #f0f8ff;
+            overflow-y: auto;
+            height: 330px;
+            z-index: inherit;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+        .answer-element {
+            margin: 10px 0;
+        }
+        .equation {
+            font-size: 20px;
+        }
+        .result {
+            font-weight: bold;
+        }
+        .correct {
+            color: green;
+        }
+        .wrong {
+            color: red;
+        }
+        .result-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 60px;
+            margin-left: 400px;
+            width: 50%;
+        }
+        .result-buttons button {
+            padding: 10px 20px;
+            font-size: 30px;
+            top:40%;
+            background-color: #0662e2;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0, 10px;
+        }
+        .result-buttons button:hover {
+            background-color: #053a84;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+    <h1 style="font-size: 39px;">Test Answer</h1>
+    <div id="answers-container" class="answer-container"></div>
+    
+    <div class="result-buttons">
+        <button onclick="playAgain()"; style="font-family: 'Comic Sans MS', cursive, sans-serif;">Play Again</button>
+        <button onclick="goHome()"; style="font-family: 'Comic Sans MS', cursive, sans-serif;">Home Page</button>
+    </div>
+
+    <img src="grass.jpg" alt="grass" class="bottom-image">
+
+    <script>
+    
+
+        const questions = JSON.parse(localStorage.getItem('questionsAndAnswers')) || [];
+
+        const last10Questions = questions.slice(-10);
+
+        if (last10Questions.length > 0) {
+            const answerContainer = document.getElementById('answers-container');
+            
+            last10Questions.forEach((question, index) => {
+                const equation = question.equation;
+                const correctAnswer = question.correctAnswer;
+                const isCorrect = question.isCorrect;
+                const resultClass = isCorrect ? 'correct' : 'wrong';
+
+                const answerElement = document.createElement('div');
+                answerElement.classList.add('answer-element');
+                answerElement.innerHTML = `
+                    <div class="equation">${equation}</div>
+                    <div class="result ${resultClass}">Your answer: ${question.userAnswer}</div>
+                    <div class="result">Correct Answer: ${correctAnswer}</div>
+                    <div class="result ${resultClass}">${isCorrect ? 'Correct!' : 'Wrong!'}</div>
+                `;
+                answerContainer.appendChild(answerElement);
+            });
+        } else {
+            const answerContainer = document.getElementById('answers-container');
+            answerContainer.innerHTML = 'No available test data';
+        }
+        function playAgain() {
+            window.location.href = 'rule1-6.html';
+        }
+
+        function goHome() {
+            window.location.href = 'loginSuccess.html';
+        }
+    </script>
+</body>
+</html>
+

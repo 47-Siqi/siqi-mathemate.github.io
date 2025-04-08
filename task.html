@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">   
+    <style>
+    h1 {
+        position: absolute;
+        top: 0%;
+        left: 50%;
+        color: white;
+        transform: translateX(-50%); 
+        /* font-family: 'Arial', sans-serif; */
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        text-align: center;
+        z-index: 2;
+    }
+    .header {
+        width: 100%;
+        height: 80px;
+        background-color: #87CEEB;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #FFFFFF;
+        font-size: 20px;
+        z-index: 2;
+    }
+    p {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 30px;
+        margin: 40px auto 200px;
+        margin-left: 30%;
+        color: #727171;
+        max-width: 600px;
+        line-height: 1.5;
+    }
+    .checkbox-container {
+        margin-left: 35%;
+        font-size: 25px;
+        color: #727171;
+        margin-top: -180px;
+        z-index: 4;
+        position: relative;
+    }
+    .checkbox-container label {
+        display: block;
+        margin-bottom: 20px;
+    }
+    .checkbox-container input[type="checkbox"] {
+        transform: scale(2.5); 
+        margin-right: 10px;
+    }
+    .checkbox-container input[type="text"] {
+        font-size: 20px;
+        padding: 5px;
+        width: 290px;
+        margin-top: 5px;
+        border-radius: 10px;
+    }
+    .checkbox-container input[type="text"]::placeholder {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        gap: 70px;
+        margin-top: 20px;
+        margin-left: -7%;
+    }
+
+    .add-task-button, .remove-task-button{
+        font-size: 30px;
+        cursor: pointer;
+        background-color: #87CEEB;
+        color: white;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: block;
+        z-index: 4;
+        position: relative;
+    }
+    .back-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #D3D3D3;
+        color: white;
+        padding: 15px 40px;
+        font-size: 30px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        z-index: 5;
+        text-align: center;
+        display: inline-block;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .bottom-image {
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: fixed;
+        bottom: 0;
+        z-index: 1;
+    }
+    </style>
+</head>
+
+<body>
+    <button class="back-button" onclick="goBack()">Back</button>
+    <div class="header"></div>
+    <i class="fas fa-calendar-check" style="font-size: 60px; position: absolute; margin-top: 55px; left: 24%; color: rgb(61, 41, 41);"></i>
+    <h1 style="font-size: 36px;">Daily Task</h1>
+    <p style="white-space: nowrap;">Let's make today's study plan!<br>
+        You can click the box when you finish a task :)</p>
+    <div class="checkbox-container" id="tasks-container">
+    </div>
+    <div class="buttons-container">
+        <button class="add-task-button" onclick="addTask()">+</button>
+        <button class="remove-task-button" onclick="removeTask()">-</button>
+    </div>
+
+    <img src="grass.jpg" alt="grass" class="bottom-image">
+
+    <script>
+        function goBack() {
+            saveTasks();
+            window.location.href = 'loginSuccess.html';
+        }
+        // save tasks to localStorage
+        function saveTasks() {
+            const tasks = [];
+            document.querySelectorAll('.checkbox-container label').forEach((label) => {
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                const text = label.querySelector('input[type="text"]').value;
+                tasks.push({
+                    checked: checkbox.checked,
+                    text: text
+                });
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        // load tasks
+        function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (tasks) {
+        const tasksContainer = document.getElementById('tasks-container');
+        tasksContainer.innerHTML = '';
+        tasks.forEach(task => {
+            const newTask = document.createElement('label');
+            newTask.innerHTML = `<input type="checkbox" ${task.checked ? 'checked' : ''}> <input type="text" value="${task.text}" placeholder="What are you doing today">`;
+            tasksContainer.appendChild(newTask);
+        });
+    }
+}
+        // add tasks
+        function addTask() {
+            const tasksContainer = document.getElementById('tasks-container');
+            const newTask = document.createElement('label');
+            newTask.innerHTML = '<input type="checkbox"> <input type="text" placeholder="What are you doing today">';
+            tasksContainer.appendChild(newTask);
+        }
+        //remove task
+        function removeTask() {
+            const tasksContainer = document.getElementById('tasks-container');
+            const lastTask = tasksContainer.lastElementChild;
+            if (lastTask) {
+                tasksContainer.removeChild(lastTask); 
+            }
+        }
+        window.onload = loadTasks;
+    </script>
+</body>
+</html>
